@@ -1,0 +1,175 @@
+<style>
+  /* Container for filters */
+  #filters {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    align-items: center;
+  }
+
+  .filter {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: #444;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .filter i {
+    font-size: 1.5rem;
+    color: #ff5722; /* Icon color */
+  }
+
+  /* Cards */
+  .listing-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .listing-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .listing-card img {
+    height: 250px;
+    object-fit: cover;
+    border-bottom: 2px solid #ff5722; /* Bottom border for the image */
+  }
+
+  .card-body {
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .card-text b {
+    font-size: 1.1rem;
+    color: #333;
+  }
+
+  .card-text {
+    color: #777;
+  }
+
+  #tax-info{
+    display: none;
+  }
+
+  .tax-toggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.5rem;
+    padding: 1rem;
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+  }
+</style>
+
+<!-- Filters Section -->
+<div id="filters">
+  <div class="filter">
+    <i class="fa-solid fa-fire"></i>
+    <p>Trending</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-bed"></i>
+    <p>Rooms</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-mountain-city"></i>
+    <p>iconic cities</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-mountain"></i>
+    <p>Mountains</p>
+  </div>
+  <div class="filter">
+     <i class="fa-brands fa-fort-awesome-alt"></i>
+     <p>Castles</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-person-swimming"></i>
+    <p>Castles</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-campground"></i>
+    <p>Camping</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-tractor"></i>
+    <p>Farms</p>
+  </div>
+  <div class="filter">
+    <i class="fa-brands fa-galactic-republic"></i>
+    <p>Arctic</p>
+  </div>
+  <div class="filter">
+    <i class="fa-brands fa-galactic-senate"></i>
+    <p>Senate</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-tree"></i>
+    <p>Tree</p>
+  </div>
+  <div class="filter">
+    <i class="fa-solid fa-snowflake"></i>
+    <p>Snow</p>
+  </div>
+  <div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+      <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+      <label class="form-check-label" for="flexSwitchCheckDefault">Display total after Taxes</label>
+    </div>
+  </div>
+</div>
+
+<!-- Listings Cards -->
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+  <% for (let listing of allListings) { %>
+    <div class="card col listing-card">
+      <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem"/>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%= listing.title %></b><br/>
+          <%= listing.price.toLocaleString("en-IN") %>/night
+        </p>
+        <i class="tax-info" style="display: none;">&nbsp; +18% GST</i>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const taxSwitch = document.getElementById("flexSwitchCheckDefault");
+
+    if (taxSwitch) {
+      // Set initial display based on the switch's checked state
+      toggleTaxInfo(taxSwitch.checked);
+
+      // Add an event listener to toggle on click
+      taxSwitch.addEventListener("click", () => {
+        toggleTaxInfo(taxSwitch.checked);
+      });
+    } else {
+      console.error("Switch element with ID 'flexSwitchCheckDefault' not found.");
+    }
+
+    function toggleTaxInfo(isChecked) {
+      const taxInfoElements = document.getElementsByClassName("tax-info");
+      for (let info of taxInfoElements) {
+        info.style.display = isChecked ? "inline" : "none";
+      }
+    }
+  });
+</script>
+
+
+
